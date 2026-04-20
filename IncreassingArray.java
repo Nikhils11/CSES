@@ -6,14 +6,15 @@ class IncreassingArray{
         Scanner scanner = new Scanner(System.in);
         int sizeOfArray = scanner.nextInt();
         int index = 0;
-        int prev = 0;
-        int res = 0;
+        long prev = 0;
+        long res = 0;
         while (index < sizeOfArray){
-            int curr = scanner.nextInt();
+            long curr = scanner.nextLong();
             if (prev > curr){
                 res += Math.abs(curr - prev);
+            }else{
+                prev = curr;
             }
-            prev = curr;
             index++;
         }
         System.out.println(res);
