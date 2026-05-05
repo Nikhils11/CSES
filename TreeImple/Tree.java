@@ -2,7 +2,7 @@ import java.util.*;
 
 class Tree{
 
-    TreeNode root;
+    static TreeNode root;
 
     public Tree(){
         this.root = null;
@@ -13,8 +13,20 @@ class Tree{
         tree.insert(100);
         System.out.println(tree);
         tree.insert(10);
+        tree.insert(120);
+        tree.insert(110);
         System.out.println("");
         System.out.println(tree);
+        TreeNode curr = getRoot();
+        System.out.println(curr);
+        boolean isFalse = findNodeBol(curr, 120);
+        System.out.println(isFalse);
+
+
+    }
+
+    public static TreeNode getRoot(){
+        return root;
     }
 
     public String toString(){
@@ -71,6 +83,34 @@ class Tree{
         }else{
             toInsertInto.right = newNode;
         }
+    }
+
+    public static TreeNode findNode(TreeNode head, int val){
+        if (head == null){
+            return null;
+        }
+        if (head.val == val){
+            return head;
+        }
+        TreeNode temp1 = findNode(head.left, val);
+        if (temp1 != null){
+            return temp1;
+        }
+        TreeNode temp2 = findNode(head.right, val);
+        if (temp2 != null){
+            return temp2;
+        }
+        return null;
+    }
+
+    public static boolean findNodeBol(TreeNode head, int val){
+        if (head == null){
+            return false;
+        }
+        if (head.val == val){
+            return true;
+        }
+        return findNodeBol(head.left, val) || findNodeBol(head.right, val);
     }
 
 
