@@ -5,10 +5,11 @@ class Graph{
 
     static ListNode [] adjList;
     static ListNode [][] adjMatrix;
+    static int numberOfVertex;
 
     public static void main(String[]args) throws IOException{
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        int numberOfVertex = Integer.valueOf(reader.readLine());
+        numberOfVertex = Integer.valueOf(reader.readLine()) + 1;
         adjList = new ListNode[numberOfVertex];
         adjMatrix = new ListNode[numberOfVertex][numberOfVertex];
         while (true){
@@ -26,6 +27,11 @@ class Graph{
         addEdge(2, 5);
         System.out.println("After adding");
         System.out.println(printGraph());
+        System.out.println("BFS printing");
+        boolean [] discoverd = new boolean[numberOfVertex];
+        int [] parent = new int[numberOfVertex];
+        bfs(1, discoverd, parent);
+        System.out.println(Arrays.toString(parent));
     }
 
     public static void buildList(String [] vertex, ListNode[] list){
@@ -109,6 +115,28 @@ class Graph{
             res.append("\n");
         }
         return res.toString();
+    }
+
+    public static void bfs(int start, boolean [] discoverd, int [] parents){
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(start);
+        System.out.print(start+ " ");
+        discoverd[start] = true;
+        while (!queue.isEmpty()){
+            int parent = queue.remove();
+            ListNode curr = adjList[parent];
+            while (curr != null){
+                if (!discoverd[curr.val]){
+                    //Over here we can procces edge (parent, curr.val
+                    System.out.print(curr.val + " ");
+                    discoverd[curr.val] = true;
+                    queue.add(curr.val);
+                    parents[curr.val] = parent;
+                }
+                curr = curr.next;
+            }
+            //Over here we can proccess a particular vertex parent
+        }
     }
 }
 
