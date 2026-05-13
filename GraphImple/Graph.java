@@ -27,11 +27,12 @@ class Graph{
         addEdge(2, 5);
         System.out.println("After adding");
         System.out.println(printGraph());
-        System.out.println("BFS printing");
         boolean [] discoverd = new boolean[numberOfVertex];
         int [] parent = new int[numberOfVertex];
-        bfs(1, discoverd, parent);
         System.out.println(Arrays.toString(parent));
+        System.out.println("DFS printing");
+        boolean [] proccessed = new boolean[numberOfVertex];
+        DFS(1, adjList, discoverd, proccessed, parent);
     }
 
     public static void buildList(String [] vertex, ListNode[] list){
@@ -138,6 +139,41 @@ class Graph{
             //Over here we can proccess a particular vertex parent
         }
     }
+
+    public static boolean DFS(int start, ListNode[] adjList,
+                           boolean [] discoverd, boolean [] proccesed, int [] parent){
+        ListNode curr = adjList[start];
+        discoverd[start] = true;
+        System.out.print(start + " ");
+        while (curr != null){
+            if (!discoverd[curr.val]){
+                parent[curr.val] = start;
+                System.out.print("Parent:" + start + " Child:" + curr.val+" ");
+                if (DFS(curr.val, adjList, discoverd, proccesed, parent)){
+                    return true;
+                }
+            }else if(!proccesed[curr.val]){
+            // do something with the edge
+                if (detectCycle(parent, start, curr.val)){
+                    return true;
+                }
+            }
+            curr = curr.next;
+        }
+        proccesed[start] = true;
+        System.out.println(" ");
+        return false;
+    }
+
+    public static boolean detectCycle(int [] parents, int parent, int child){
+        if (parents[parent] != child){
+            System.out.println("Cycle detected due to:" + "/n"
+                    + "Parent:"+parent + " Child:"+child+" ");
+            return true;
+        }
+        return false;
+    }
+
 }
 
 class ListNode{
