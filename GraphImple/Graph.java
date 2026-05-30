@@ -21,18 +21,22 @@ class Graph{
             buildList(vertex, adjList);
         }
         System.out.println(printGraph());
-        deleteEdge(2, 5);
         System.out.println("After Deletion");
         System.out.println(printGraph());
-        addEdge(2, 5);
         System.out.println("After adding");
         System.out.println(printGraph());
         boolean [] discoverd = new boolean[numberOfVertex];
         int [] parent = new int[numberOfVertex];
         System.out.println(Arrays.toString(parent));
-        System.out.println("DFS printing");
+        System.out.println("TopologicalSort printing");
         boolean [] proccessed = new boolean[numberOfVertex];
-        DFS(1, adjList, discoverd, proccessed, parent);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0;i < numberOfVertex - 1;i++) {
+            topologicalSort(i, adjList, proccessed, discoverd, stack);
+        }
+        while (!stack.isEmpty()){
+            System.out.print(stack.pop() + " ");
+        }
     }
 
     public static void buildList(String [] vertex, ListNode[] list){
@@ -138,6 +142,21 @@ class Graph{
             }
             //Over here we can proccess a particular vertex parent
         }
+    }
+
+    public static void topologicalSort(int start, ListNode [] adjList,
+                                boolean [] proccessed, boolean [] discoverd,
+                                Stack<Integer> stack){
+        ListNode curr = adjList[start];
+        discoverd[curr.val] = true;
+        while (curr != null){
+            if (!discoverd[curr.val]){
+                topologicalSort(curr.val, adjList, proccessed, discoverd, stack);
+            }
+            curr = curr.next;
+        }
+        stack.push(start);
+        proccessed[start] = true;
     }
 
     public static boolean DFS(int start, ListNode[] adjList,
