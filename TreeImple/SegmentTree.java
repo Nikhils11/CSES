@@ -20,7 +20,7 @@ class SegmentTree{
         int index = Integer.parseInt(reader.readLine());
         set(x, index + n);
         System.out.println(Arrays.toString(arr));
-        System.out.println(query(1, 1, 4, 1 , n));
+        System.out.println(query(1, 1, 5, 1 , n));
     }
 
     public static void set(int x, int i){
